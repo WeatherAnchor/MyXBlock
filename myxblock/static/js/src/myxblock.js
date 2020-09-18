@@ -15,21 +15,22 @@ function MyXBlock(runtime, element) {
             success: updateCount
         });
     });
-
-    $(function ($) {
-        /* Here's where you'd do things on page load. */
-    });
+    // Datacamp submits the grade if correct
+    var submitHandleUrl = runtime.handlerUrl(element, 'submit_dc_grade');
+    function submitDatacampGrade(result) {
+        $('.weather-submit', element).text(result.grade)
+    }
     
     window.onload = function () {
         console.log(DCL.instances)
-    
+
         DCL.instances["my_test_1"].on("feedback", function(payload) {
-            if (payload.correct) {
-                alert("You rock!");
-                console.log("this is noice", payload)
-            } else {
-                console.log("wrong", payload)
-            }
+            $.ajax({
+                type: "POST",
+                url: submitHandleUrl,
+                data: JSON.stringify(payload),
+                success: submitDatacampGrade
+            });
         });
     
     ;}
