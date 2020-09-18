@@ -27,9 +27,11 @@ function MyXBlock(runtime, element) {
           dc_grade: $(element).find('input[name=dc_grade]').val(),
           dc_code: $(element).find('input[name=dc_code]').val()
         };
+        console.log("save is working");
         runtime.notify('save', {state: 'start'});
         $.post(handlerUrl, JSON.stringify(data)).done(function(response) {
           runtime.notify('save', {state: 'end'});
+          console.log("save data working")
         });
     });
     
