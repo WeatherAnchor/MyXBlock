@@ -45,7 +45,7 @@ function MyXBlock(runtime, element) {
             type: "POST",
             url: runtime.handlerUrl(element, 'studio_submit'),
             data: JSON.stringify(data),
-            success: runtime.notify('save', {state: 'end'});
+            success: runtime.notify('save', {state: 'end'})
         });
     });
     
