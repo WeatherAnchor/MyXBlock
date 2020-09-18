@@ -3,7 +3,7 @@
 import pkg_resources
 from web_fragments.fragment import Fragment
 from xblock.core import XBlock
-from xblock.fields import Integer, Scope
+from xblock.fields import Integer, Scope, String
 
 
 class MyXBlock(XBlock):
@@ -22,6 +22,14 @@ class MyXBlock(XBlock):
     )
     my_count = Integer(default=10, scope=Scope.user_state)
     grade = 0
+
+    dc_cdn = String(help="URL of the datacamp's cdn", default="http://cdn.datacamp.com/dcl/latest/dcl-react.js.gz", scope=Scope.content)
+
+    dc_grade = Integer(help="Maximum grade for the assignment", default=1, scope=Scope.content)
+
+    dc_code = String(help="Code for the exercise", default="<h1>This is code!</h1>", scope=Scope.content)
+
+
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
         data = pkg_resources.resource_string(__name__, path)
@@ -45,7 +53,7 @@ class MyXBlock(XBlock):
         Create a fragment used to display the edit view in the Studio.
         """
         html = self.resource_string("static/html/mystudio.html")
-        frag = Fragment(html.format(self=self))
+        frag = Fragment(html.format(dc_cdn=self.dc_cdn, dc_grade=self.dc_grade, dc_code=self.dc_code))
 
         return frag
 
@@ -81,6 +89,16 @@ class MyXBlock(XBlock):
 
         return {"grade":grade}
 
+    @XBlock.json_handler
+    def studio_submit(self, data, suffix=''):
+        """
+        Called when submitting the form in Studio.
+        """
+        self.dc_cdn = data.get('dc_cdn')
+        self.dc_grade = data.get('dc_grade')
+        self.dc_code = data.get('dc_code')
+
+        return {'result': 'success'}
 
 
 

@@ -20,6 +20,22 @@ function MyXBlock(runtime, element) {
     function submitDatacampGrade(result) {
         $('.weather-submit', element).text(result.grade)
     }
+    $(element).find('.save-button').bind('click', function() {
+        var handlerUrl = runtime.handlerUrl(element, 'studio_submit');
+        var data = {
+          dc_cdn: $(element).find('input[name=dc_cdn]').val(),
+          dc_grade: $(element).find('input[name=dc_grade]').val(),
+          dc_code: $(element).find('input[name=dc_code]').val()
+        };
+        runtime.notify('save', {state: 'start'});
+        $.post(handlerUrl, JSON.stringify(data)).done(function(response) {
+          runtime.notify('save', {state: 'end'});
+        });
+    });
+    
+    $(element).find('.cancel-button').bind('click', function() {
+    runtime.notify('cancel', {});
+    });
     
     window.onload = function () {
         console.log(DCL.instances)
