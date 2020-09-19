@@ -20,42 +20,23 @@ function MyXBlock(runtime, element) {
     function submitDatacampGrade(result) {
         $('.weather-submit', element).text(result.grade)
     }
-    // $(element).find('.save-button').bind('click', function() {
-    //     var handlerUrl = runtime.handlerUrl(element, 'studio_submit');
-    //     var data = {
-    //       dc_cdn: $(element).find('input[name=dc_cdn]').val(),
-    //       dc_grade: $(element).find('input[name=dc_grade]').val(),
-    //       dc_code: $(element).find('input[name=dc_code]').val()
-    //     };
-    //     console.log()
-    //     runtime.notify('save', {state: 'start'});
-    //     $.post(handlerUrl, JSON.stringify(data)).done(function(response) {
-    //       runtime.notify('save', {state: 'end'});
-    //     });
-    // });
 
-    $('.save-button').click(function(eventObject){
+    $(element).find('.save-button').bind('click', function() {
+        var handlerUrl = runtime.handlerUrl(element, 'studio_submit');
         var data = {
-            dc_cdn: $(element).find('input[name=dc_cdn]').val(),
-            dc_grade: $(element).find('input[name=dc_grade]').val(),
-            dc_code: $(element).find('input[name=dc_code]').val()
+          dc_cdn: $(element).find('input[name=dc_cdn]').val(),
+          dc_grade: $(element).find('input[name=dc_grade]').val(),
+          dc_code: $(element).find('input[name=dc_code]').val()
         };
+        console.log()
         runtime.notify('save', {state: 'start'});
-        $.ajax({
-            type: "POST",
-            url: runtime.handlerUrl(element, 'studio_submit'),
-            data: JSON.stringify(data),
-            success: runtime.notify('save', {state: 'end'})
+        $.post(handlerUrl, JSON.stringify(data)).done(function(response) {
+          runtime.notify('save', {state: 'end'});
         });
     });
-    
-    $('.cancel-button').click(function(eventObject){
+    $(element).find('.cancel-button').bind('click', function() {
         runtime.notify('cancel', {});
     });
-
-    // $(element).find('.cancel-button').bind('click', function() {
-    // runtime.notify('cancel', {});
-    // });
     
     window.onload = function () {
         console.log(DCL.instances)
