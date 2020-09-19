@@ -98,6 +98,7 @@ class MyXBlock(XBlock):
         self.dc_grade = data.get('dc_grade')
         self.dc_code = data.get('dc_code')
 
+
         return {'result': 'success'}
 
 

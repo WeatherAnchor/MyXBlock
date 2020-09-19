@@ -20,7 +20,6 @@ function MyXBlock(runtime, element) {
     function submitDatacampGrade(result) {
         $('.weather-submit', element).text(result.grade)
     }
-
     $(element).find('.save-button').bind('click', function() {
         var handlerUrl = runtime.handlerUrl(element, 'studio_submit');
         var data = {
@@ -37,6 +36,27 @@ function MyXBlock(runtime, element) {
     $(element).find('.cancel-button').bind('click', function() {
         runtime.notify('cancel', {});
     });
+
+    // $('.save-button').click(function(eventObject){
+    //     var data = {
+    //         dc_cdn: $(element).find('input[name=dc_cdn]').val(),
+    //         dc_grade: $(element).find('input[name=dc_grade]').val(),
+    //         dc_code: $(element).find('input[name=dc_code]').val()
+    //     };
+    //     runtime.notify('save', {state: 'start'});
+    //     $.ajax({
+    //         type: "POST",
+    //         url: runtime.handlerUrl(element, 'studio_submit'),
+    //         data: JSON.stringify(data),
+    //         success: runtime.notify('save', {state: 'end'})
+    //     });
+    // });
+    
+    // $('.cancel-button').click(function(eventObject){
+    //     runtime.notify('cancel', {});
+    // });
+
+    
     
     window.onload = function () {
         console.log(DCL.instances)
@@ -52,4 +72,3 @@ function MyXBlock(runtime, element) {
     
     ;}
 }
-
